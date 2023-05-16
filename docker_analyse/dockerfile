@@ -1,0 +1,29 @@
+# Dockerfile
+FROM python:3.8-slim
+
+# Mise à jour du système d'exploitation et installation des dépendances du système
+RUN apt-get update && apt-get install -y \
+    wget \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1-mesa-glx \
+    tesseract-ocr
+
+# Installez les dépendances Python
+RUN pip install torch torchvision pillow opencv-python colorthief pytesseract imageai opencv-python-headless
+
+# Téléchargez les fichiers de modèle nécessaires
+#RUN mkdir -p /root/.torch/models
+#RUN apt-get update && apt-get install -y wget
+#RUN wget -P /root/.torch/models https://download.pytorch.org/models/fasterrcnn_resnet50_fpn_coco-258fb6c6.pth
+
+# Créez les répertoires de travail
+WORKDIR /app
+
+# Copiez le script Python dans l'image
+COPY ./docker_analyse /app
+
+# Exécutez le script Python lorsque le conteneur est démarré
+CMD ["python", "analyse.py"]

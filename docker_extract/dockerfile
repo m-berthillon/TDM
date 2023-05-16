@@ -1,0 +1,17 @@
+# Dockerfile
+FROM python:3.8-slim
+
+RUN apt-get update && apt-get install -y tesseract-ocr
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+# Installez les dépendances
+RUN pip install Pillow torchvision pyspark
+
+# Créez les répertoires de travail
+WORKDIR /app
+
+# Copiez le script Python dans l'image
+COPY ./docker_extract /app
+
+# Exécutez le script Python lorsque le conteneur est démarré
+CMD ["python", "extract.py"]

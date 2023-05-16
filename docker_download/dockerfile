@@ -1,0 +1,14 @@
+# Utiliser une image de base Python
+FROM python:3.8-slim-buster
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copier les fichiers du répertoire courant dans le conteneur
+COPY ./docker_download/ /app
+
+# Installer les dépendances
+RUN pip install requests 
+
+# Exécuter le script
+CMD ["python", "download.py"]
